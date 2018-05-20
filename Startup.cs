@@ -8,16 +8,28 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using vega.Persistence;
 
 namespace vega
 {
     
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
+        // public Startup(IConfiguration configuration)
+        // {
+        //     Configuration = configuration;
+        // }
 
         public IConfiguration Configuration { get; }
 
@@ -25,7 +37,7 @@ namespace vega
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<VegaDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("Default"))); 
+                    options.UseSqlServer(Configuration.GetConnectionString("Default"))); 
 
             services.AddMvc();
         }
@@ -36,10 +48,10 @@ namespace vega
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                    HotModuleReplacement = true
-                });
+                // app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                // {
+                //     HotModuleReplacement = true
+                // });
             }
             else
             {
@@ -58,6 +70,10 @@ namespace vega
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+        }
+        public class MappingProfile : Profile
+        {
+
         }
     }
 }
