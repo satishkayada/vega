@@ -19,6 +19,7 @@ namespace vega.Persistence
         { }
         public DbSet<vega.Models.Model> Models { get; set; }
         public DbSet<vega.Models.Make> Makes { get; set; }
+        public DbSet<vega.Models.Feature> Features { get; set; }
 
     }
 }
