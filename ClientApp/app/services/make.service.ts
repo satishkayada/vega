@@ -1,9 +1,12 @@
+import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
-
-@Injectable({
-  providedIn: 'root'
-})
+import "rxjs/add/operator/Map";
+@Injectable()
 export class MakeService {
-
-  constructor() { }
+  constructor(private http:Http) { }
+  public getMake(){
+    return this.http.get('api/makes')
+      .map(res => res.json());
+  }
+  
 }

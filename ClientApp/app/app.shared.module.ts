@@ -1,9 +1,9 @@
-import { MakeService } from './services/make.service';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { MakeService } from './services/make.service';
+import { CommonModule } from '@angular/common';
+import { HttpModule } from '@angular/http';
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
@@ -21,9 +21,9 @@ import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.com
         VehicleFormComponent
     ],
     imports: [
+        FormsModule,
         CommonModule,
         HttpModule,
-        FormsModule,
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
@@ -32,9 +32,8 @@ import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.com
             { path: 'Vahicle', component: VehicleFormComponent },
             { path: '**', redirectTo: 'home' }
         ])
-    ]
-    ,
-    providers: [
+    ],
+    providers:[
         MakeService
     ]
 })
