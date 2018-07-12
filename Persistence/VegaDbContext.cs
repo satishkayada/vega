@@ -14,12 +14,19 @@ namespace vega.Persistence
 {
     public class VegaDbContext : DbContext
     {
-        public VegaDbContext(DbContextOptions<VegaDbContext> options)
-            : base(options)
-        { }
         public DbSet<vega.Models.Model> Models { get; set; }
         public DbSet<vega.Models.Make> Makes { get; set; }
         public DbSet<vega.Models.Feature> Features { get; set; }
 
+        public VegaDbContext(DbContextOptions<VegaDbContext> options)
+            : base(options)
+        { }
+
+        protected override void OnModelCreating(ModelBuilder modelbulder)
+        {
+            modelbulder.Entity<VehicleFeature>().HasKey(vf => 
+                new { vf.VehicleId,vf.FeatureId}
+            );
+        }
     }
 }

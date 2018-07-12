@@ -1,17 +1,48 @@
 <h1>New Vahicle</h1>
 <form action="Submit">
-    <div class="form-group">
-        <label>Make</label>
-        <select id="make" class="form-control" (change)="onMakeChanges()" [(ngModel)]='vehicle' name='make'>
-        <option></option>
-        <option *ngFor="let m of makes" value="{{m.id}}" > {{m.name}} </option>
-        </select>
+    <div class="col-md-12 col-xs-12">
+        <div class="form-4group">
+            <label>Make</label>
+            <select id="make" class="form-control" (change)="onMakeChanges()" [(ngModel)]='vehicle' name='make'>
+            <option></option>
+            <option *ngFor="let m of makes" value="{{m.id}}" > {{m.name}} </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Model</label>
+            <select id="model" class="form-control">
+            <option></option>
+            <option *ngFor="let m of models" value="{{m.Id}}" > {{m.name}} </option>
+            </select>
+        </div>
     </div>
-    <div class="form-group">
-        <label>Model</label>
-        <select id="model" class="form-control">
-        <option></option>
-        <option *ngFor="let m of models" value="{{m.Id}}" > {{m.name}} </option>
-        </select>
+    <div class="col-md-12 col-xs-12">
+        <p> Is This Vehicle Register ?</p>
+        <input type="radio" name="register" id="register"> Yes
+        <input type="radio" name="register" id="notRegister"> No
+
+        <h2>Features</h2>
+        <div *ngFor="let f of features">
+        <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" id="feature{{f.id}}">
+            {{f.name}}
+        </label>
+        </div>
     </div>
+    <div class="col-md-12 col-xs-12">
+        <h2>Features</h2>
+        <div class="form-group">
+            <label>Contact Person</label>    
+            <input id="contactname" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Email</label>    
+            <input id="email" type="email" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Phone</label>    
+            <input id="phoneno" type="number" class="form-control">
+        </div>
+    </div>
+
 </form>
