@@ -33,10 +33,21 @@ namespace vega.Mapping
                 .ForMember(v => v.ContactPhone, opt => opt.MapFrom(vr => vr.Contact.Phone))
                 .ForMember(v => v.Features, opt => opt.Ignore())
                 .AfterMap ((vr, v) =>{
-                    var removeFeatures = v.Features.Where(f => !vr.Features.Contains(f.FeatureId));
+
+                    var removeFeatures = new List<VehicleFeature>();
+                    foreach (var f in v.Features) {
+                        if (!vr.Features.Contains(f.FeatureId)){
+                            removeFeatures.Add(f);
+                        }
+                    }
                     foreach(var f in removeFeatures){
                         v.Features.Remove(f);
                     }
+                    
+                    // var removeFeatures = v.Features.Where(f => !vr.Features.Contains(f.FeatureId));
+                    // foreach(var f in removeFeatures){
+                    //     v.Features.Remove(f);
+                    // }
                     var addedFeatures=vr.Features.Where(id => !v.Features.Any(f => f.FeatureId==id)).Select(id => new VehicleFeature { FeatureId = id});
                     foreach(var f in addedFeatures)
                     {
