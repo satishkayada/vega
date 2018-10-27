@@ -31,6 +31,7 @@ namespace vega
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IVehicleRepository,VehicleRepository>();
+            services.AddScoped<IUnitofWork,UnitofWork>();
             services.AddAutoMapper();
             services.AddDbContext<VegaDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("Default"))); 

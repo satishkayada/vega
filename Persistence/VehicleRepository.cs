@@ -23,6 +23,11 @@ namespace vega.Persistence
                     .ThenInclude(m => m.Make)  
                 .SingleOrDefaultAsync(v => v.Id == id);
         }
+        public async Task<Model> GetModel(int id)
+        {
+            return await context.Models
+                .FirstAsync(V => V.Id==id);
+        }
         public void Add(Vehicle vehicle)
         {
             context.Vehicles.Add(vehicle);

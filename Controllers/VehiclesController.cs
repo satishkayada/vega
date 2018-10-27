@@ -8,9 +8,7 @@ using vega.Controllers.Resources;
 using vega.Models;
 using AutoMapper;
 using vega.Persistence;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-
 namespace vega.Controllers
 {
     [Produces("application/json")]
@@ -18,13 +16,14 @@ namespace vega.Controllers
     public class VehiclesController : Controller
     {
         private readonly IMapper mapper;
-        private readonly VegaDbContext context;
         private readonly IVehicleRepository repository;
-        public VehiclesController(VegaDbContext pContext, IMapper pMapper, IVehicleRepository repository)
+        private readonly IUnitofWork unitofWork;
+
+        public VehiclesController(IMapper pMapper, IVehicleRepository repository, IUnitofWork unitofWork)
         {
+            this.unitofWork = unitofWork;
             this.repository = repository;
             this.mapper = pMapper;
-            this.context = pContext;
         }
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResources VR)
@@ -34,7 +33,8 @@ namespace vega.Controllers
                 return BadRequest(ModelState);
             }
 
-            var model = await context.Models.FindAsync(VR.ModelId);
+            //var model = await context.Models.FindAsync(VR.ModelId);
+            var model = await repository.GetModel(VR.ModelId);
             if (model == null)
             {
                 ModelState.AddModelError("ModelId", "Invalid Model");
@@ -44,8 +44,8 @@ namespace vega.Controllers
             var vehicle = mapper.Map<SaveVehicleResources, Vehicle>(VR);
             vehicle.LastUdpate = DateTime.Now;
             //context.Vehicles.Add(vehicle);
-            repository.Add(Vehicle);
-            await context.SaveChangesAsync();
+            repository.Add(vehicle);
+            await unitofWork.CompleteAsync();
 
             // This will include all the other name properties form id
             vehicle = await repository.GetVehicle(vehicle.Id);
@@ -61,16 +61,14 @@ namespace vega.Controllers
                 return BadRequest(ModelState);
             }
 
-            var vehicle = await context.Vehicles.Include(v => v.Features).FirstOrDefaultAsync(v => v.Id == id);
+            var vehicle =  await repository.GetVehicle(id);
             if (vehicle == null)
             {
                 return NotFound();
             }
             mapper.Map<SaveVehicleResources, Vehicle>(VR, vehicle);
             vehicle.LastUdpate = DateTime.Now;
-
-            await context.SaveChangesAsync();
-
+            await unitofWork.CompleteAsync();
             // This will include all the other name properties form id
             vehicle = await repository.GetVehicle(vehicle.Id);
 
@@ -86,7 +84,7 @@ namespace vega.Controllers
                 return NotFound();
             }
             repository.Remove(vehicle);
-            await context.SaveChangesAsync();
+            await unitofWork.CompleteAsync();
             return Ok(id);
         }
         [HttpGet("{id}")] // / api/vehicles/{id}
