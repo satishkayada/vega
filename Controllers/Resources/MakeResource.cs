@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using vega.Models;
+using vega.Core.Models;
 
 namespace vega.Controllers.Resources
 {

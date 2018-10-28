@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using vega.Controllers.Resources;
-using vega.Models;
+using vega.Core;
+using vega.Core.Models;
 using AutoMapper;
-using vega.Persistence;
 using Microsoft.EntityFrameworkCore;
 namespace vega.Controllers
 {

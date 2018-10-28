@@ -8,16 +8,16 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using vega.Models;
+using vega.Core.Models;
 
 namespace vega.Persistence
 {
     public class VegaDbContext : DbContext
     {
-        public DbSet <vega.Models.Vehicle> Vehicles { get; set; }
-        public DbSet<vega.Models.Model> Models { get; set; }
-        public DbSet<vega.Models.Make> Makes { get; set; }
-        public DbSet<vega.Models.Feature> Features { get; set; }
+        public DbSet <Vehicle> Vehicles { get; set; }
+        public DbSet<Model> Models { get; set; }
+        public DbSet<Make> Makes { get; set; }
+        public DbSet<Feature> Features { get; set; }
 
         public VegaDbContext(DbContextOptions<VegaDbContext> options)
             : base(options)
