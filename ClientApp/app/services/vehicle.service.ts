@@ -12,4 +12,8 @@ export class VehicleService {
     return this.http.get('api/features')
       .map(res => res.json());
   }
+  public create(Vehicle:any){
+    return this.http.post('api/vehicles/',Vehicle)
+      .map(res => res.json());
+  }
 }
