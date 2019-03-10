@@ -1,11 +1,11 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { VehicleService } from './../../services/vehicle.service';
+import { ToastyService } from 'ng2-toasty';
 
 @Component({
   selector: 'app-vehicle-form',
-  templateUrl: './vehicle-form.component.html',
-  styleUrls: ['./vehicle-form.component.css']
+  templateUrl: './vehicle-form.component.html'
 })
 export class VehicleFormComponent implements OnInit {
    makes: any[]=[];
@@ -16,18 +16,20 @@ export class VehicleFormComponent implements OnInit {
      contact: {}
    };
    
-   constructor(private VehicleService: VehicleService) { }
+   constructor(private VehicleService: VehicleService,private toastyService: ToastyService
+   ) {
+   }
    ngOnInit() {
-    this.VehicleService.getMake().subscribe(makes => 
-        {
-          this.makes = makes;
-        }
+        this.VehicleService.getMake().subscribe(makes => 
+            {
+              this.makes = makes;
+            }
       );
     this.VehicleService.getFeature().subscribe(features => {
           this.features = features;
         }
     );
-  }
+   }
   onMakeChanges()
   {
     console.log(this.makes);
@@ -47,10 +49,20 @@ export class VehicleFormComponent implements OnInit {
       this.vehicle.features.splice(index, 1);
     }
   }
-  submit(){
-     console.log('Submit Called');
+  submit() {
      this.VehicleService.create(this.vehicle)
-      .subscribe(x=> console.log(x));
+     .subscribe(
+       x=> console.log(x),
+       err => {
+        this.toastyService.error({
+           title: 'Error',
+           msg: 'Test Message',
+           theme: 'bootstrap',
+           showClose: true,
+           timeout: 10000
+         });
+       }
+     );
   }
-
+  
 }
