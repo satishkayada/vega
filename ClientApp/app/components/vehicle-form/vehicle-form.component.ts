@@ -1,7 +1,6 @@
-
+import { ToastyService } from 'ng2-toasty';
 import { Component, OnInit } from '@angular/core';
 import { VehicleService } from './../../services/vehicle.service';
-
 @Component({
   selector: 'app-vehicle-form',
   templateUrl: './vehicle-form.component.html',
@@ -16,7 +15,7 @@ export class VehicleFormComponent implements OnInit {
      contact: {}
    };
    
-   constructor(private VehicleService: VehicleService) { }
+   constructor(private VehicleService: VehicleService,private toastyService: ToastyService) { }
    ngOnInit() {
     this.VehicleService.getMake().subscribe(makes => 
         {
@@ -30,10 +29,6 @@ export class VehicleFormComponent implements OnInit {
   }
   onMakeChanges()
   {
-    console.log(this.makes);
-    console.log(this.vehicle);
-    console.log("Features" ,this.features);
-
     var selectedMakes = this.makes.find(m => m.id == this.vehicle.makeId);
     console.log(selectedMakes);
     this.models=selectedMakes.models;
@@ -48,9 +43,18 @@ export class VehicleFormComponent implements OnInit {
     }
   }
   submit(){
-     console.log('Submit Called');
-     this.VehicleService.create(this.vehicle)
-      .subscribe(x=> console.log(x));
+        this.toastyService.error(
+                    {
+                      title:'Error',
+                      msg:'msg',
+                      timeout:2000,
+                      theme:'default',
+                      showClose:true,
+                    }
+                    );
+        console.log('Save Called');
+    //   this.VehicleService.create(this.vehicle)
+    //  .subscribe(x=> console.log(x));
   }
 
 }

@@ -2,7 +2,7 @@
 <p>
         {{vehicle | json}}
 </p>
-<form #f="ngForm" (ngSubmit)="submit()">
+<form #f="ngForm" (ngSubmit)="submit()" novalidate>
     <div class="col-md-12 col-xs-12">
         <div class="form-4group">
             <label>Make</label>
@@ -50,7 +50,8 @@
             <input id="phoneno" type="number" class="form-control" [(ngModel)]="vehicle.contact.phone" name="contactPhone"> 
         </div>
     </div>
-    <div *ngIf="f.valid">
-        <button type="submit" onclick="submit()" >Save</button>
+    <!-- <div *ngIf="f.valid"> -->
+    <div>
+            <button type="submit" onclick="submit()" >Save</button>
     </div>
 </form>
