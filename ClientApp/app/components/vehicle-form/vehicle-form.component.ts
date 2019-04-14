@@ -50,19 +50,19 @@ export class VehicleFormComponent implements OnInit {
     }
   }
   submit() {
-     this.VehicleService.create(this.vehicle)
-     .subscribe(
-       x=> console.log(x),
-       err => {
-        this.toastyService.error({
-           title: 'Error',
-           msg: 'Test Message',
-           theme: 'bootstrap',
-           showClose: true,
-           timeout: 10000
-         });
-       }
-     );
+     //this.VehicleService.create(this.vehicle)
+     //.subscribe(
+     //  x=> console.log(x),
+     //  err => {
+     //   this.toastyService.error({
+     //      title: 'Error',
+     //      msg: 'Test Message',
+     //      theme: 'bootstrap',
+     //      showClose: true,
+     //      timeout: 10000
+     //    });
+     //  }
+     //);
   }
   
 }

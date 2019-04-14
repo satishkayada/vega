@@ -11,6 +11,10 @@ namespace vega.Persistence
         {
             this.context = Context;
         }
+        public async Task<Vehicle> GetVehicle()
+        {
+            return await GetVehicle(0, false);
+        }
         public async Task<Vehicle> GetVehicle(int id,bool includedRelated = true)
         {
             if (!includedRelated)

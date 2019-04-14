@@ -28,7 +28,6 @@ namespace vega.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResources VR)
         {
-            throw new Exception(); 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -87,6 +86,17 @@ namespace vega.Controllers
             repository.Remove(vehicle);
             await unitofWork.CompleteAsync();
             return Ok(id);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetVehicle()
+        {
+            var vehicle = await repository.GetVehicle();
+            if (vehicle == null)
+            {
+                return NotFound();
+            }
+            var VehicleResource = mapper.Map<Vehicle, VehicleResources>(vehicle);
+            return Ok(VehicleResource);
         }
         [HttpGet("{id}")] // / api/vehicles/{id}
         public async Task<IActionResult> GetVehicle(int id)

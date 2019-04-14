@@ -57,7 +57,8 @@ namespace vega
 
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>
+            app.UseMvc(
+            routes =>
             {
                 routes.MapRoute(
                     name: "default",
@@ -66,7 +67,11 @@ namespace vega
                 routes.MapSpaFallbackRoute(
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
-            });
+                //routes.EnableDependencyInjection();
+                //routes.Expand().Select().Count().Filter().OrderBy();
+            }
+            );
+
         }
         public class MappingProfile : Profile
         {
